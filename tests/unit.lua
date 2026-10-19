@@ -61,6 +61,12 @@ for _, path in ipairs({ "", tmp, tmp .. "/missing", vim.v.progpath .. "/missing"
   local valid = pcall(require("openplanet").config, { server_path = path })
   eq(false, valid, "bad executable " .. path)
 end
+vim.fn.mkdir(tmp .. "/plugin/nested", "p")
+vim.fn.writefile({ "" }, tmp .. "/plugin/nested/.openplanet-lsp.toml")
+edit(tmp .. "/plugin/nested/Example.as")
+root = nil
+config.root_dir(0, function(value) root = value end)
+eq(tmp .. "/plugin/nested", root, "nearer config wins over distant manifest")
 local options = { init_options = { defines = { "ORIGINAL" } } }
 local isolated = require("openplanet").config(options)
 isolated.init_options.defines[1] = "CHANGED"

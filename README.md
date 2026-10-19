@@ -51,7 +51,7 @@ require("openplanet").setup({
   server_path = "/absolute/path/to/openplanet-lsp",
   -- Optional: only send settings you explicitly want to override.
   init_options = {
-    game_target = "trackmania",
+    game_target = "TMNEXT",
     -- openplanet_dir = "/path/to/OpenplanetNext",
     -- plugins_dir = "/path/to/OpenplanetNext/Plugins",
     -- defines = { "MY_DEFINE" },

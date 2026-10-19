@@ -9,7 +9,19 @@ local function root_for(path)
   if name ~= "info.toml" and not path:match("%.as$") then
     return nil
   end
-  return vim.fs.root(path, { "info.toml", ".openplanet-lsp.toml" }) or vim.fs.dirname(path)
+  -- Walk explicitly: Neovim 0.11+ treats a flat marker list as priority
+  -- tiers rather than equal-priority markers at each ancestor.
+  local dir = vim.fs.dirname(path)
+  while dir do
+    if (vim.uv or vim.loop).fs_stat(dir .. "/info.toml")
+      or (vim.uv or vim.loop).fs_stat(dir .. "/.openplanet-lsp.toml") then
+      return dir
+    end
+    local parent = vim.fs.dirname(dir)
+    if parent == dir then break end
+    dir = parent
+  end
+  return vim.fs.dirname(path)
 end
 
 ---Build a native vim.lsp configuration without starting a server.
@@ -61,6 +73,17 @@ function M.setup(opts)
     config.single_file_support = false
     configs.openplanet = configs.openplanet or { default_config = config }
     require("lspconfig").openplanet.setup(config)
+    -- Legacy :LspStart installs a BufReadPost callback with a cached root,
+    -- bypassing root_dir. Guard this server's manager before any attachment.
+    local manager = configs.openplanet.manager
+    local try_add = manager.try_add
+    manager.try_add = function(self, bufnr, _, silent)
+      bufnr = bufnr or vim.api.nvim_get_current_buf()
+      if vim.api.nvim_buf_is_valid(bufnr) then
+        local root = root_for(vim.api.nvim_buf_get_name(bufnr))
+        if root then return try_add(self, bufnr, root, silent) end
+      end
+    end
   end
 end
 

@@ -2,6 +2,7 @@
 vim.opt.runtimepath:prepend(vim.fn.getcwd())
 if vim.env.LSPCONFIG_PATH then
   vim.opt.runtimepath:prepend(vim.env.LSPCONFIG_PATH)
+  vim.cmd("runtime plugin/lspconfig.lua")
 end
 vim.cmd("filetype on")
 vim.cmd("syntax enable")
@@ -22,6 +23,11 @@ wait_for("initialized client", function()
   return client and client.initialized
 end)
 check("real server attached to AngelScript", client ~= nil)
+-- :LspStart installs lspconfig's cached-root BufReadPost path in 0.10.
+if vim.fn.has("nvim-0.11") == 0 then
+  vim.cmd("LspStart openplanet")
+  vim.wait(100, function() return false end, 20)
+end
 report.command = client.config.cmd
 report.server = client.server_info
 report.root = client.config.root_dir
@@ -59,6 +65,7 @@ wait_for("manifest attachment", function() return #vim.lsp.get_clients({ bufnr =
 check("manifest stays TOML", vim.bo.filetype == "toml")
 check("manifest shares source client", vim.lsp.get_clients({ bufnr = manifest, name = "openplanet" })[1].id == client.id)
 vim.cmd("edit tests/fixtures/demo/other.toml")
+vim.cmd("doautocmd BufReadPost")
 vim.wait(400, function() return false end, 50)
 check("ordinary TOML does not attach", #vim.lsp.get_clients({ bufnr = 0, name = "openplanet" }) == 0)
 vim.fn.mkdir("artifacts", "p")
