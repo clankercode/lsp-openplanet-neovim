@@ -1,53 +1,53 @@
 {
-  "diagnostics": [
-    {
-      "code": "unused-declaration",
-      "_tags": {
-        "unnecessary": true
-      },
-      "end_lnum": 4,
-      "lnum": 4,
-      "severity": 3,
-      "source": "openplanet-lsp",
-      "bufnr": 1,
-      "end_col": 12,
-      "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
-      "namespace": 7,
-      "user_data": {
-        "lsp": {
-          "source": "openplanet-lsp",
-          "code": "unused-declaration",
-          "tags": [
-            1
-          ],
-          "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
-          "data": {
-            "unusedKind": "local variable"
-          },
-          "range": {
-            "end": {
-              "character": 12,
-              "line": 4
-            },
-            "start": {
-              "character": 8,
-              "line": 4
-            }
-          },
-          "severity": 3
-        }
-      },
-      "_extmark_id": 1,
-      "col": 8
-    }
-  ],
   "clients": [
     {
+      "name": "openplanet",
       "cmd": [
         "openplanet-lsp",
         "--lsp"
-      ],
-      "name": "openplanet"
+      ]
+    }
+  ],
+  "diagnostics": [
+    {
+      "namespace": 7,
+      "source": "openplanet-lsp",
+      "_extmark_id": 1,
+      "severity": 3,
+      "col": 8,
+      "_tags": {
+        "unnecessary": true
+      },
+      "code": "unused-declaration",
+      "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
+      "lnum": 4,
+      "end_lnum": 4,
+      "end_col": 12,
+      "bufnr": 1,
+      "user_data": {
+        "lsp": {
+          "tags": [
+            1
+          ],
+          "data": {
+            "unusedKind": "local variable"
+          },
+          "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
+          "code": "unused-declaration",
+          "range": {
+            "start": {
+              "character": 8,
+              "line": 4
+            },
+            "end": {
+              "character": 12,
+              "line": 4
+            }
+          },
+          "severity": 3,
+          "source": "openplanet-lsp"
+        }
+      }
     }
   ]
 }

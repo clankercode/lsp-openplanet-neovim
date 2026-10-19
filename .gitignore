@@ -1,3 +1,4 @@
 /artifacts/
 /.codebase-memory/
 *.swp
+__pycache__/
