@@ -71,6 +71,8 @@ function M.setup(opts)
     -- rootless startup prevents attachment to other TOML files.
     config.root_dir = root_for
     config.single_file_support = false
+    -- Suppress eager reload attachment until the per-server guards exist.
+    config.autostart = false
     configs.openplanet = configs.openplanet or { default_config = config }
     require("lspconfig").openplanet.setup(config)
     -- Legacy :LspStart installs a BufReadPost callback with a cached root,
@@ -90,7 +92,9 @@ function M.setup(opts)
         bufnr = bufnr,
         silent = silent,
         reuse_client = function(client)
-          return client.name == new_config.name and client.config.root_dir == root
+          local cached = (self._clients[root] or {})[new_config.name]
+          return cached and cached.id == client.id
+            and client.name == new_config.name and client.config.root_dir == root
         end,
       })
       if id then self:_cache_client(root, vim.lsp.get_client_by_id(id)) end
@@ -102,6 +106,17 @@ function M.setup(opts)
         local root = root_for(vim.api.nvim_buf_get_name(bufnr))
         if root then return try_add(self, bufnr, root, silent) end
       end
+    end
+    local group = vim.api.nvim_create_augroup("openplanet_legacy", { clear = true })
+    vim.api.nvim_create_autocmd("FileType", {
+      group = group,
+      pattern = { "angelscript", "toml" },
+      callback = function(event) manager:try_add_wrapper(event.buf) end,
+    })
+    -- Existing buffers also attach when setup is run after files are opened,
+    -- or repeated while old clients are shutting down.
+    for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if vim.api.nvim_buf_is_loaded(bufnr) then manager:try_add_wrapper(bufnr) end
     end
   end
 end

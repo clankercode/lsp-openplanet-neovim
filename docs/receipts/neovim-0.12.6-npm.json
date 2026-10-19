@@ -1,12 +1,9 @@
 {
-  "command": [
-    "/tmp/openplanet-neovim-npm/node_modules/.bin/openplanet-lsp",
-    "--lsp"
-  ],
   "definition": null,
   "limits": [
     "Definition returned no location for this local variable in server 0.8.0."
   ],
+  "root": "/home/xertrov/src/lsp-openplanet-neovim/tests/fixtures/demo",
   "hover": {
     "contents": {
       "value": "```angelscript\n(local) string greeting\n```",
@@ -14,13 +11,13 @@
     }
   },
   "neovim": {
-    "build": "v0.12.6",
-    "major": 0,
-    "minor": 12,
-    "api_level": 14,
+    "patch": 6,
     "api_prerelease": false,
     "api_compatible": 0,
-    "patch": 6
+    "api_level": 14,
+    "build": "v0.12.6",
+    "major": 0,
+    "minor": 12
   },
   "checks": [
     "real server attached to AngelScript",
@@ -29,7 +26,57 @@
     "completion includes local greeting",
     "manifest stays TOML",
     "manifest shares source client",
-    "ordinary TOML does not attach"
+    "ordinary TOML does not attach",
+    "correct client root for parent",
+    "parent config sets unused error",
+    "correct client root for parent/nested",
+    "independent client for parent/nested",
+    "nested config suppresses unused",
+    "correct client root for sibling",
+    "independent client for sibling",
+    "independent client for sibling"
+  ],
+  "diagnostics": [
+    {
+      "severity": 3,
+      "lnum": 4,
+      "bufnr": 1,
+      "end_col": 12,
+      "namespace": 7,
+      "col": 8,
+      "end_lnum": 4,
+      "source": "openplanet-lsp",
+      "user_data": {
+        "lsp": {
+          "range": {
+            "start": {
+              "line": 4,
+              "character": 8
+            },
+            "end": {
+              "line": 4,
+              "character": 12
+            }
+          },
+          "data": {
+            "unusedKind": "local variable"
+          },
+          "source": "openplanet-lsp",
+          "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
+          "severity": 3,
+          "code": "unused-declaration",
+          "tags": [
+            1
+          ]
+        }
+      },
+      "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
+      "_tags": {
+        "unnecessary": true
+      },
+      "code": "unused-declaration",
+      "_extmark_id": 1
+    }
   ],
   "completion": [
     {
@@ -173,447 +220,408 @@
       "kind": 3
     },
     {
-      "detail": "void ExploreNod(string name, ? )",
-      "kind": 3,
-      "label": "ExploreNod",
-      "documentation": {
-        "value": "Opens the Nod Explorer with the given nod and the given tab name.\n\n```angelscript\nvoid ExploreNod(string name, ? )\nvoid ExploreNod(string name, ? , const Reflection::MwClassInfo@ classInfo)\nvoid ExploreNod(? )\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
+      },
+      "kind": 3,
+      "label": "ExploreNod",
+      "detail": "void ExploreNod(string name, ? )",
+      "documentation": {
+        "value": "Opens the Nod Explorer with the given nod and the given tab name.\n\n```angelscript\nvoid ExploreNod(string name, ? )\nvoid ExploreNod(string name, ? , const Reflection::MwClassInfo@ classInfo)\nvoid ExploreNod(? )\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "CGameCtnApp@ GetApp()",
-      "kind": 3,
-      "label": "GetApp",
-      "documentation": {
-        "value": "Gets the main game app object.\n\n```angelscript\nCGameCtnApp@ GetApp()\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "CGameCtnApp@",
         "detail": "()"
+      },
+      "kind": 3,
+      "label": "GetApp",
+      "detail": "CGameCtnApp@ GetApp()",
+      "documentation": {
+        "value": "Gets the main game app object.\n\n```angelscript\nCGameCtnApp@ GetApp()\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "CMwCmdBufferCore@ GetCmdBufferCore()",
-      "kind": 3,
-      "label": "GetCmdBufferCore",
-      "documentation": {
-        "value": "Gets the main game command scheduling object.\n\n```angelscript\nCMwCmdBufferCore@ GetCmdBufferCore()\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "CMwCmdBufferCore@",
         "detail": "()"
+      },
+      "kind": 3,
+      "label": "GetCmdBufferCore",
+      "detail": "CMwCmdBufferCore@ GetCmdBufferCore()",
+      "documentation": {
+        "value": "Gets the main game command scheduling object.\n\n```angelscript\nCMwCmdBufferCore@ GetCmdBufferCore()\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "CSystemFidFile@ GetFidFromNod(? )",
-      "kind": 3,
-      "label": "GetFidFromNod",
-      "documentation": {
-        "value": "Gets the fid of the given nod, if it's set.\n\n```angelscript\nCSystemFidFile@ GetFidFromNod(? )\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "CSystemFidFile@",
         "detail": "(\u2026)"
+      },
+      "kind": 3,
+      "label": "GetFidFromNod",
+      "detail": "CSystemFidFile@ GetFidFromNod(? )",
+      "documentation": {
+        "value": "Gets the fid of the given nod, if it's set.\n\n```angelscript\nCSystemFidFile@ GetFidFromNod(? )\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "string GetLocalLogin()",
-      "kind": 3,
-      "label": "GetLocalLogin",
-      "documentation": {
-        "value": "Gets the logged in user's username.\n\n```angelscript\nstring GetLocalLogin()\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "string",
         "detail": "()"
+      },
+      "kind": 3,
+      "label": "GetLocalLogin",
+      "detail": "string GetLocalLogin()",
+      "documentation": {
+        "value": "Gets the logged in user's username.\n\n```angelscript\nstring GetLocalLogin()\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "CSystemConfig@ GetSystemConfig()",
-      "kind": 3,
-      "label": "GetSystemConfig",
-      "documentation": {
-        "value": "Gets the main game system configuration object.\n\n```angelscript\nCSystemConfig@ GetSystemConfig()\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "CSystemConfig@",
         "detail": "()"
+      },
+      "kind": 3,
+      "label": "GetSystemConfig",
+      "detail": "CSystemConfig@ GetSystemConfig()",
+      "documentation": {
+        "value": "Gets the main game system configuration object.\n\n```angelscript\nCSystemConfig@ GetSystemConfig()\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "void OpenBrowserURL(string url)",
+      "commitCharacters": [
+        "("
+      ],
+      "labelDetails": {
+        "description": "void",
+        "detail": "(\u2026)"
+      },
       "kind": 3,
       "label": "OpenBrowserURL",
+      "detail": "void OpenBrowserURL(string url)",
       "documentation": {
         "value": "Opens the default web browser with the given URL.\n\n```angelscript\nvoid OpenBrowserURL(string url)\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void OpenExplorerPath(string path)",
+      },
       "kind": 3,
       "label": "OpenExplorerPath",
+      "detail": "void OpenExplorerPath(string path)",
       "documentation": {
         "value": "Opens Windows explorer to the specified absolute path.\n\n```angelscript\nvoid OpenExplorerPath(string path)\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
-        "description": "void",
-        "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "bool OpenplanetHasFullPermissions()",
+        "description": "bool",
+        "detail": "()"
+      },
       "kind": 3,
       "label": "OpenplanetHasFullPermissions",
+      "detail": "bool OpenplanetHasFullPermissions()",
       "documentation": {
         "value": "Returns true if Openplanet has full permissions. (On Trackmania, this means having the Club Edition of the game.)\n\n```angelscript\nbool OpenplanetHasFullPermissions()\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "bool",
         "detail": "()"
-      }
-    },
-    {
-      "detail": "bool OpenplanetHasPaidPermissions()",
+      },
       "kind": 3,
       "label": "OpenplanetHasPaidPermissions",
+      "detail": "bool OpenplanetHasPaidPermissions()",
       "documentation": {
         "value": "Returns true if Openplanet has (at least) paid permissions. (On Trackmania, this means having the Standard or Club Edition of the game.)\n\n```angelscript\nbool OpenplanetHasPaidPermissions()\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
-        "description": "bool",
-        "detail": "()"
-      }
-    },
-    {
-      "detail": "void PrintActiveContextStack(bool error)",
+        "description": "void",
+        "detail": "(\u2026)"
+      },
       "kind": 3,
       "label": "PrintActiveContextStack",
+      "detail": "void PrintActiveContextStack(bool error)",
       "documentation": {
         "value": "Prints the currently active context stack trace to the log.\n\n```angelscript\nvoid PrintActiveContextStack(bool error)\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void RegisterLoadCallback(uint id)",
+      },
       "kind": 3,
       "label": "RegisterLoadCallback",
+      "detail": "void RegisterLoadCallback(uint id)",
       "documentation": {
         "value": "Tells the scripting to invoke the currently executing plugin when nods are loaded with the given class ID.\n\n```angelscript\nvoid RegisterLoadCallback(uint id)\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void UnregisterLoadCallback(uint id)",
+      },
       "kind": 3,
       "label": "UnregisterLoadCallback",
+      "detail": "void UnregisterLoadCallback(uint id)",
       "documentation": {
         "value": "Tells the scripting to stop invoking the currently executing plugin when nods are loaded with the given class ID.\n\n```angelscript\nvoid UnregisterLoadCallback(uint id)\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void await(awaitable@ )",
+      },
       "kind": 3,
       "label": "await",
+      "detail": "void await(awaitable@ )",
       "documentation": {
         "value": "Yields the current execution until the given awaitable has finished.\n\n```angelscript\nvoid await(awaitable@ )\nvoid await(awaitable@[]@ )\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void awaitany(awaitable@[]@ )",
+      },
       "kind": 3,
       "label": "awaitany",
+      "detail": "void awaitany(awaitable@[]@ )",
       "documentation": {
         "value": "Yields the current execution until at least 1 of the given awaitables have finished.\n\n```angelscript\nvoid awaitany(awaitable@[]@ )\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void error(string )",
+      },
       "kind": 3,
       "label": "error",
+      "detail": "void error(string )",
       "documentation": {
         "value": "Prints an error to Openplanet's log.\n\n```angelscript\nvoid error(string )\nvoid error(? )\n```",
         "kind": "markdown"
-      },
-      "commitCharacters": [
-        "("
-      ],
-      "labelDetails": {
-        "description": "void",
-        "detail": "(\u2026)"
       }
     },
     {
-      "detail": "string getExceptionInfo()",
-      "kind": 3,
-      "label": "getExceptionInfo",
-      "documentation": {
-        "value": "Returns the exception string.\n\n```angelscript\nstring getExceptionInfo()\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "string",
         "detail": "()"
+      },
+      "kind": 3,
+      "label": "getExceptionInfo",
+      "detail": "string getExceptionInfo()",
+      "documentation": {
+        "value": "Returns the exception string.\n\n```angelscript\nstring getExceptionInfo()\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "void print(string )",
+      "commitCharacters": [
+        "("
+      ],
+      "labelDetails": {
+        "description": "void",
+        "detail": "(\u2026)"
+      },
       "kind": 3,
       "label": "print",
+      "detail": "void print(string )",
       "documentation": {
         "value": "Prints a line to Openplanet's log.\n\n```angelscript\nvoid print(string )\nvoid print(? )\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void sleep(uint64 ms)",
+      },
       "kind": 3,
       "label": "sleep",
+      "detail": "void sleep(uint64 ms)",
       "documentation": {
         "value": "Yields the current execution for a given period of time. Execution will be resumed after that time.\n\n```angelscript\nvoid sleep(uint64 ms)\n```",
         "kind": "markdown"
-      },
-      "commitCharacters": [
-        "("
-      ],
-      "labelDetails": {
-        "description": "void",
-        "detail": "(\u2026)"
       }
     },
     {
-      "detail": "awaitable@ startnew(CoroutineFunc@ func)",
-      "kind": 3,
-      "label": "startnew",
-      "documentation": {
-        "value": "Starts a new yieldable coroutine from the given function. Function should be a declaration of 'void Func()'.\n\n```angelscript\nawaitable@ startnew(CoroutineFunc@ func)\nawaitable@ startnew(CoroutineFuncUserdata@ func, ref userdata)\nawaitable@ startnew(CoroutineFuncUserdataInt64@ func, int userdata)\nawaitable@ startnew(CoroutineFuncUserdataInt64@ func, int64 userdata)\nawaitable@ startnew(CoroutineFuncUserdataUint64@ func, uint userdata)\nawaitable@ startnew(CoroutineFuncUserdataUint64@ func, uint64 userdata)\nawaitable@ startnew(CoroutineFuncUserdataDouble@ func, double userdata)\nawaitable@ startnew(CoroutineFuncUserdataBool@ func, bool userdata)\nawaitable@ startnew(CoroutineFuncUserdataString@ func, string userdata)\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "awaitable@",
         "detail": "(\u2026)"
+      },
+      "kind": 3,
+      "label": "startnew",
+      "detail": "awaitable@ startnew(CoroutineFunc@ func)",
+      "documentation": {
+        "value": "Starts a new yieldable coroutine from the given function. Function should be a declaration of 'void Func()'.\n\n```angelscript\nawaitable@ startnew(CoroutineFunc@ func)\nawaitable@ startnew(CoroutineFuncUserdata@ func, ref userdata)\nawaitable@ startnew(CoroutineFuncUserdataInt64@ func, int userdata)\nawaitable@ startnew(CoroutineFuncUserdataInt64@ func, int64 userdata)\nawaitable@ startnew(CoroutineFuncUserdataUint64@ func, uint userdata)\nawaitable@ startnew(CoroutineFuncUserdataUint64@ func, uint64 userdata)\nawaitable@ startnew(CoroutineFuncUserdataDouble@ func, double userdata)\nawaitable@ startnew(CoroutineFuncUserdataBool@ func, bool userdata)\nawaitable@ startnew(CoroutineFuncUserdataString@ func, string userdata)\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "void throw(string )",
-      "kind": 3,
-      "label": "throw",
-      "documentation": {
-        "value": "Throws a script exception.\n\n```angelscript\nvoid throw(string )\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
+      },
+      "kind": 3,
+      "label": "throw",
+      "detail": "void throw(string )",
+      "documentation": {
+        "value": "Throws a script exception.\n\n```angelscript\nvoid throw(string )\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "string tostring(? )",
-      "kind": 3,
-      "label": "tostring",
-      "documentation": {
-        "value": "Returns a string representation of the given object, if possible. Will call an object's ToString() method if it exists. Throws an exception if it was unable to.\n\n```angelscript\nstring tostring(? )\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "string",
         "detail": "(\u2026)"
+      },
+      "kind": 3,
+      "label": "tostring",
+      "detail": "string tostring(? )",
+      "documentation": {
+        "value": "Returns a string representation of the given object, if possible. Will call an object's ToString() method if it exists. Throws an exception if it was unable to.\n\n```angelscript\nstring tostring(? )\n```",
+        "kind": "markdown"
       }
     },
     {
-      "detail": "void trace(string )",
+      "commitCharacters": [
+        "("
+      ],
+      "labelDetails": {
+        "description": "void",
+        "detail": "(\u2026)"
+      },
       "kind": 3,
       "label": "trace",
+      "detail": "void trace(string )",
       "documentation": {
         "value": "Prints a trace to Openplanet's log.\n\n```angelscript\nvoid trace(string )\nvoid trace(? )\n```",
         "kind": "markdown"
-      },
+      }
+    },
+    {
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "(\u2026)"
-      }
-    },
-    {
-      "detail": "void warn(string )",
+      },
       "kind": 3,
       "label": "warn",
+      "detail": "void warn(string )",
       "documentation": {
         "value": "Prints a warning to Openplanet's log.\n\n```angelscript\nvoid warn(string )\nvoid warn(? )\n```",
         "kind": "markdown"
-      },
-      "commitCharacters": [
-        "("
-      ],
-      "labelDetails": {
-        "description": "void",
-        "detail": "(\u2026)"
       }
     },
     {
-      "detail": "void yield()",
-      "kind": 3,
-      "label": "yield",
-      "documentation": {
-        "value": "Yields the current execution. Execution will be resumed the next game tick. This is the same as calling `yield(1)`.\n\n```angelscript\nvoid yield()\nvoid yield(uint frames)\n```",
-        "kind": "markdown"
-      },
       "commitCharacters": [
         "("
       ],
       "labelDetails": {
         "description": "void",
         "detail": "()"
+      },
+      "kind": 3,
+      "label": "yield",
+      "detail": "void yield()",
+      "documentation": {
+        "value": "Yields the current execution. Execution will be resumed the next game tick. This is the same as calling `yield(1)`.\n\n```angelscript\nvoid yield()\nvoid yield(uint frames)\n```",
+        "kind": "markdown"
       }
     }
   ],
-  "diagnostics": [
-    {
-      "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
-      "end_col": 12,
-      "lnum": 4,
-      "bufnr": 1,
-      "_tags": {
-        "unnecessary": true
-      },
-      "_extmark_id": 1,
-      "source": "openplanet-lsp",
-      "col": 8,
-      "severity": 3,
-      "user_data": {
-        "lsp": {
-          "message": "a local variable `laps` is never used (suppress with a leading `_` or a trailing `// lsp: ignore unused` comment)",
-          "data": {
-            "unusedKind": "local variable"
-          },
-          "severity": 3,
-          "range": {
-            "end": {
-              "character": 12,
-              "line": 4
-            },
-            "start": {
-              "character": 8,
-              "line": 4
-            }
-          },
-          "tags": [
-            1
-          ],
-          "source": "openplanet-lsp",
-          "code": "unused-declaration"
-        }
-      },
-      "end_lnum": 4,
-      "namespace": 7,
-      "code": "unused-declaration"
-    }
-  ],
-  "root": "/home/xertrov/src/lsp-openplanet-neovim/tests/fixtures/demo"
+  "command": [
+    "/tmp/openplanet-neovim-npm/node_modules/.bin/openplanet-lsp",
+    "--lsp"
+  ]
 }

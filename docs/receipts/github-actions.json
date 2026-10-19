@@ -1,0 +1,26 @@
+{
+  "conclusion": "success",
+  "headSha": "8ed77b98c9c2519c264a661e719c63480a1829d0",
+  "jobs": [
+    {
+      "name": "test (v0.11.5)",
+      "conclusion": "success",
+      "status": "completed",
+      "url": "https://github.com/clankercode/lsp-openplanet-neovim/actions/runs/39216688479/job/117942085759"
+    },
+    {
+      "name": "test (v0.10.4)",
+      "conclusion": "success",
+      "status": "completed",
+      "url": "https://github.com/clankercode/lsp-openplanet-neovim/actions/runs/39216688479/job/117942085890"
+    },
+    {
+      "name": "test (stable)",
+      "conclusion": "success",
+      "status": "completed",
+      "url": "https://github.com/clankercode/lsp-openplanet-neovim/actions/runs/39216688479/job/117942085971"
+    }
+  ],
+  "status": "completed",
+  "url": "https://github.com/clankercode/lsp-openplanet-neovim/actions/runs/39216688479"
+}

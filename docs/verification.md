@@ -7,6 +7,7 @@ Verified 2026-10-19 on Linux x86_64. No server source changes or builds were req
 - Neovim **0.12.6**, system executable; published **openplanet-lsp 0.8.0** from PATH: **23 unit checks and 15 live editor checks passed**.
 - Neovim **0.11.5**, official Linux release unpacked under `/tmp`: **23 unit checks and 15 live editor checks passed**, native `vim.lsp.config` / `enable` path.
 - Neovim **0.10.4**, official Linux release unpacked under `/tmp`, **nvim-lspconfig v1.8.0** at `cb33dea610b7eff240985be9f6fe219920e630ef`: **23 unit checks and 15 live editor checks passed**, real legacy path.
+- Legacy `tests/reload.lua`: **6 setup/reload checks passed** on Neovim 0.10.4, including multiple pre-opened buffers, active-client reload and stopped-client reload.
 - `npm install --prefix /tmp/openplanet-neovim-npm openplanet-lsp@0.8.0` installed the package. Setting `OPENPLANET_LSP` to its `node_modules/.bin/openplanet-lsp` passed all **15 live checks on 0.12.6**. npm reported its optional postinstall check blocked by local install-script policy; the platform binary package still installed and worked. No global npm state changed.
 - `docs/assets/neovim.png`: real Neovim **0.12.6**, kitty, private Xvfb display, **1360×480 PNG**, verified with Pillow. Private terminal/display processes were terminated by the capture script.
 
@@ -37,6 +38,7 @@ For the legacy stack:
 
 ```sh
 LSPCONFIG_PATH=/path/to/nvim-lspconfig-v1.8.0 /path/to/nvim-0.10.4 --headless -u NONE -l tests/live.lua
+LSPCONFIG_PATH=/path/to/nvim-lspconfig-v1.8.0 /path/to/nvim-0.10.4 --headless -u NONE -l tests/reload.lua
 ```
 
 Live runs write `artifacts/live.json`. The tests inspect the shipped demo without saving edits. To capture the editor on Linux, install kitty, Xvfb, ImageMagick's `import`, and Python 3, then:
@@ -60,4 +62,4 @@ The first capture put the diagnostic float over the last source line. A second c
 - No game/plugin runtime test was done; the screenshot is the editor, not Trackmania. No fixture type database is bundled or enabled.
 - The server may auto-detect machine-local Openplanet data. Portable live assertions deliberately use only local declarations and builtin syntax; full game-API coverage depends on user-installed data.
 - Plugin-manager UI flows were documented, not driven interactively. The repository was loaded directly into Neovim's runtimepath for the tests.
-- Hosted CI status is recorded separately; a local pass is not evidence that GitHub Actions passed.
+- Hosted CI passed all three Linux jobs at `8ed77b98c9c2519c264a661e719c63480a1829d0`: [run 39216688479](https://github.com/clankercode/lsp-openplanet-neovim/actions/runs/39216688479). The machine-readable result is in `receipts/github-actions.json`. Later documentation-only commits do not change that tested implementation.
