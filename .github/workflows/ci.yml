@@ -1,0 +1,32 @@
+name: Neovim checks
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        neovim: [v0.10.4, v0.11.5, stable]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: rhysd/action-setup-vim@v1
+        with:
+          version: ${{ matrix.neovim }}
+          neovim: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm install -g openplanet-lsp@0.8.0
+      - if: matrix.neovim == 'v0.10.4'
+        run: git clone --depth 1 --branch v1.8.0 https://github.com/neovim/nvim-lspconfig.git "$RUNNER_TEMP/nvim-lspconfig"
+      - run: bash scripts/test.sh
+      - if: matrix.neovim != 'v0.10.4'
+        run: nvim --headless -u NONE -l tests/live.lua
+      - if: matrix.neovim == 'v0.10.4'
+        run: LSPCONFIG_PATH="$RUNNER_TEMP/nvim-lspconfig" nvim --headless -u NONE -l tests/live.lua
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.neovim }}
+          path: artifacts/
