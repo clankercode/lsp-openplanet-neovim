@@ -76,6 +76,25 @@ function M.setup(opts)
     -- Legacy :LspStart installs a BufReadPost callback with a cached root,
     -- bypassing root_dir. Guard this server's manager before any attachment.
     local manager = configs.openplanet.manager
+    -- v1.8.0 otherwise reuses any server with the same name across all
+    -- roots. Openplanet initialization and config discovery are per-root.
+    manager._start_client = function(self, bufnr, new_config, root, _, silent)
+      if new_config.enabled == false then return end
+      new_config.cmd_cwd = new_config.cmd_cwd or root
+      local on_exit = new_config.on_exit
+      new_config.on_exit = function(...)
+        if self._clients[root] then self._clients[root][new_config.name] = nil end
+        if on_exit then on_exit(...) end
+      end
+      local id = vim.lsp.start(new_config, {
+        bufnr = bufnr,
+        silent = silent,
+        reuse_client = function(client)
+          return client.name == new_config.name and client.config.root_dir == root
+        end,
+      })
+      if id then self:_cache_client(root, vim.lsp.get_client_by_id(id)) end
+    end
     local try_add = manager.try_add
     manager.try_add = function(self, bufnr, _, silent)
       bufnr = bufnr or vim.api.nvim_get_current_buf()

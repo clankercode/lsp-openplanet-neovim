@@ -68,6 +68,42 @@ vim.cmd("edit tests/fixtures/demo/other.toml")
 vim.cmd("doautocmd BufReadPost")
 vim.wait(400, function() return false end, 50)
 check("ordinary TOML does not attach", #vim.lsp.get_clients({ bufnr = 0, name = "openplanet" }) == 0)
+-- Multiple roots must not share one server's initialization/configuration.
+local tmp = vim.fn.tempname()
+vim.fn.mkdir(tmp .. "/parent/nested", "p")
+vim.fn.mkdir(tmp .. "/sibling", "p")
+vim.fn.writefile({ "[meta]", 'name = "Parent"' }, tmp .. "/parent/info.toml")
+vim.fn.writefile({ 'unused = "error"' }, tmp .. "/parent/.openplanet-lsp.toml")
+vim.fn.writefile({ 'unused = "ignore"' }, tmp .. "/parent/nested/.openplanet-lsp.toml")
+vim.fn.writefile({ "[meta]", 'name = "Sibling"' }, tmp .. "/sibling/info.toml")
+local roots = {}
+for _, directory in ipairs({ "parent", "parent/nested", "sibling" }) do
+  local path = tmp .. "/" .. directory .. "/Main.as"
+  vim.fn.writefile({ "void Main() { int unusedValue = 1; }" }, path)
+  vim.cmd("edit " .. vim.fn.fnameescape(path))
+  local buffer = vim.api.nvim_get_current_buf()
+  local attached
+  wait_for("root " .. directory, function()
+    attached = vim.lsp.get_clients({ bufnr = buffer, name = "openplanet" })[1]
+    return attached and attached.initialized
+  end)
+  check("correct client root for " .. directory, attached.config.root_dir == tmp .. "/" .. directory)
+  for _, previous in ipairs(roots) do
+    check("independent client for " .. directory, previous.id ~= attached.id)
+  end
+  table.insert(roots, attached)
+  if directory == "parent" then
+    wait_for("parent unused error", function() return #vim.diagnostic.get(buffer) > 0 end)
+    check("parent config sets unused error", vim.diagnostic.get(buffer)[1].severity == vim.diagnostic.severity.ERROR)
+  elseif directory == "parent/nested" then
+    vim.wait(600, function() return false end, 50)
+    check("nested config suppresses unused", #vim.diagnostic.get(buffer) == 0)
+  end
+end
+for _, c in ipairs(roots) do
+  if vim.fn.has("nvim-0.11") == 1 then c:stop(true) else c.stop(true) end
+end
+vim.fn.delete(tmp, "rf")
 vim.fn.mkdir("artifacts", "p")
 vim.fn.writefile({ vim.json.encode(report) }, "artifacts/live.json")
 if vim.fn.has("nvim-0.11") == 1 then client:stop(true) else client.stop(true) end

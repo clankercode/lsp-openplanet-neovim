@@ -4,15 +4,17 @@ Verified 2026-10-19 on Linux x86_64. No server source changes or builds were req
 
 ## Executed checks
 
-- Neovim **0.12.6**, system executable; published **openplanet-lsp 0.8.0** from PATH: **23 unit checks and 7 live editor checks passed**.
-- Neovim **0.11.5**, official Linux release unpacked under `/tmp`: **23 unit checks and 7 live editor checks passed**, native `vim.lsp.config` / `enable` path.
-- Neovim **0.10.4**, official Linux release unpacked under `/tmp`, **nvim-lspconfig v1.8.0** at `cb33dea610b7eff240985be9f6fe219920e630ef`: **23 unit checks and 7 live editor checks passed**, real legacy path.
-- `npm install --prefix /tmp/openplanet-neovim-npm openplanet-lsp@0.8.0` installed the package. Setting `OPENPLANET_LSP` to its `node_modules/.bin/openplanet-lsp` passed all **7 live checks on 0.12.6**. npm reported its optional postinstall check blocked by local install-script policy; the platform binary package still installed and worked. No global npm state changed.
+- Neovim **0.12.6**, system executable; published **openplanet-lsp 0.8.0** from PATH: **23 unit checks and 15 live editor checks passed**.
+- Neovim **0.11.5**, official Linux release unpacked under `/tmp`: **23 unit checks and 15 live editor checks passed**, native `vim.lsp.config` / `enable` path.
+- Neovim **0.10.4**, official Linux release unpacked under `/tmp`, **nvim-lspconfig v1.8.0** at `cb33dea610b7eff240985be9f6fe219920e630ef`: **23 unit checks and 15 live editor checks passed**, real legacy path.
+- `npm install --prefix /tmp/openplanet-neovim-npm openplanet-lsp@0.8.0` installed the package. Setting `OPENPLANET_LSP` to its `node_modules/.bin/openplanet-lsp` passed all **15 live checks on 0.12.6**. npm reported its optional postinstall check blocked by local install-script policy; the platform binary package still installed and worked. No global npm state changed.
 - `docs/assets/neovim.png`: real Neovim **0.12.6**, kitty, private Xvfb display, **1360×480 PNG**, verified with Pillow. Private terminal/display processes were terminated by the capture script.
 
 The native `vim.lsp.enable("openplanet")`-only entrypoint was also smoke-tested on 0.12.6 and attached the shipped `lsp/openplanet.lua` configuration successfully.
 
 Unit tests verify `.as` detection and syntax, stdio arguments, no injected initialization defaults, nearest plugin roots and parent workspace markers, standalone-file fallback, equal-priority mixed root markers, exact `info.toml` matching, rejection of unrelated TOML/Lua files, explicit executable override validation, and non-mutating options. The first red run reproduced Neovim identifying `.as` as `atlas`; the implementation changed it to `angelscript`.
+
+Live tests also open parent, nested and sibling plugin roots, assert distinct client IDs and correct roots, and verify that a parent `unused = "error"` setting does not override a nested `unused = "ignore"` setting.
 
 Live tests launch the actual server through Neovim and assert attachment, the real `unused-declaration` diagnostic, hover content, completion containing the local `greeting` symbol, shared source/manifest client, preserved TOML filetype, and no attachment to an existing `other.toml`, including after legacy `:LspStart` installs its cached-root callback. These are actual JSON-RPC responses, not an emulated server. Versioned raw response receipts are in [receipts/](receipts/); `screenshot.json` records the diagnostic shown in the screenshot.
 
